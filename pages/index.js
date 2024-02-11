@@ -1,3 +1,9 @@
+import Layout from "@/components/Nav/Layout";
+
 export default function Home() {
-  return <>Warkawik</>;
+  return (
+    <>
+      <Layout></Layout>
+    </>
+  );
 }
