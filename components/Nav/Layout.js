@@ -44,9 +44,11 @@ export default function Layout({ active, children }) {
             </nav>
 
             {children}
-          </div>
 
-          <footer className="min-h-48 "></footer>
+            <footer className="min-h-48 flex items-center justify-center">
+              Warkawik
+            </footer>
+          </div>
         </div>
       </div>
     </>
