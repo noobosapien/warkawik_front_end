@@ -1,13 +1,28 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function Prompt() {
+export default function Prompt({ sendMessage, messageHistory }) {
   const formRef = useRef();
   const inputRef = useRef();
   const msgRef = useRef();
 
+  const [input, setInput] = useState("");
+  const [disabled, setDisabled] = useState(false);
+
   let generate = async (e) => {
     e.preventDefault();
+    setDisabled(true);
+    sendMessage(input);
   };
+
+  useEffect(() => {
+    if (messageHistory) {
+      let obj = JSON.parse(messageHistory);
+
+      if (obj.status == 1) {
+        setDisabled(false);
+      }
+    }
+  }, [messageHistory]);
 
   return (
     <>
@@ -24,14 +39,20 @@ export default function Prompt() {
               className="flex-1 p-3 border-2 rounded-lg placeholder-slate-500 focus:outline-none dark:text-slate-800"
               placeholder="Enter your prompt"
               id="link-input"
+              onChange={(e) => setInput(e.target.value)}
               ref={inputRef}
             />
 
             <button
               onClick={generate}
-              className="px-10 py-3 text-white bg-cyan-600 rounded-lg hover:bg-cyan-500 focus:outline-none md:py-2"
+              className={`px-10 py-3 text-white ${
+                disabled
+                  ? "bg-gray-300 hover:bg-gray-300"
+                  : "bg-cyan-600 hover:bg-cyan-500"
+              } rounded-lg  focus:outline-none md:py-2`}
+              disabled={disabled}
             >
-              Generate
+              <span>{disabled ? "Generating..." : "Generate"}</span>
             </button>
 
             <div
